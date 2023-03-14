@@ -8,16 +8,20 @@ public class Todo {
 
     private String username;
 
+    private String title;
+
     private LocalDate targetDate;
 
     private boolean targetReached;
 
-    public Todo(long id, String username, LocalDate targetDate, boolean targetReached) {
+    public Todo(long id, String username, String title, LocalDate targetDate, boolean targetReached) {
         this.id = id;
         this.username = username;
+        this.title = title;
         this.targetDate = targetDate;
         this.targetReached = targetReached;
     }
+
 
     public long getId() {
         return id;
@@ -33,6 +37,14 @@ public class Todo {
 
     public void setUsername(String username) {
         this.username = username;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     public LocalDate getTargetDate() {
