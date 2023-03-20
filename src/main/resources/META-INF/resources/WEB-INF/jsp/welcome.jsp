@@ -3,12 +3,12 @@
     <title>Welcome Page</title>
 </head>
 <body>
-<div>
-    Welcome
+<div class="container">
+    <h1>
+        Welcome ${name}
+    </h1>
+    <a href="list-todos">Manage</a>
+    Your todos
 </div>
-<div>
-    Your name is ${name}
-</div>
-
 </body>
 </html>
