@@ -8,16 +8,16 @@ public class Todo {
 
     private String username;
 
-    private String title;
+    private String description;
 
     private LocalDate targetDate;
 
     private boolean targetReached;
 
-    public Todo(long id, String username, String title, LocalDate targetDate, boolean targetReached) {
+    public Todo(long id, String username, String description, LocalDate targetDate, boolean targetReached) {
         this.id = id;
         this.username = username;
-        this.title = title;
+        this.description = description;
         this.targetDate = targetDate;
         this.targetReached = targetReached;
     }
@@ -39,12 +39,12 @@ public class Todo {
         this.username = username;
     }
 
-    public String getTitle() {
-        return title;
+    public String getDescription() {
+        return description;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public LocalDate getTargetDate() {
