@@ -39,7 +39,7 @@ public class TodoController {
         if (bindingResult.hasErrors()) {
             return "todo";
         }
-        todoService.addTodo(modelMap.get("name").toString(), todo.getDescription(), LocalDate.now().plusYears(1), false);
+        todoService.addTodo(modelMap.get("name").toString(), todo.getDescription(), todo.getTargetDate(), false);
         return "redirect:list-todos";
     }
 
