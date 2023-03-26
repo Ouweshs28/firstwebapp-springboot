@@ -23,12 +23,15 @@ public class Todo {
 
     private boolean targetReached;
 
-    public Todo(long id, String username, String description, LocalDate targetDate, boolean targetReached) {
-        this.id = id;
+    public Todo(String username, String description, LocalDate targetDate, boolean targetReached) {
         this.username = username;
         this.description = description;
         this.targetDate = targetDate;
         this.targetReached = targetReached;
+    }
+
+    public Todo() {
+        
     }
 
     public long getId() {

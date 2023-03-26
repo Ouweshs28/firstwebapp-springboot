@@ -2,52 +2,34 @@ package com.ouwesh.springboot.myfirstwebapp.controller.todo;
 
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.function.Predicate;
 
 @Service
 public class TodoService {
 
-    private static List<Todo> todos = new ArrayList<>();
+    private final TodoRepository todoRepository;
 
-    private static int todoCount = 0;
-
-    static {
-        todos.add(
-                new Todo(++todoCount, "ows", "Learn Java", LocalDate.now().plusYears(1), false));
-        todos.add(
-                new Todo(++todoCount, "ows", "Learn AWS", LocalDate.now().plusYears(2), false));
-        todos.add(
-                new Todo(++todoCount, "ows", "Learn Quarkus", LocalDate.now().plusYears(3), false));
+    public TodoService(TodoRepository todoRepository) {
+        this.todoRepository = todoRepository;
     }
-
 
     public List<Todo> findByUsername(String username) {
-        Predicate<Todo> predicate = todo -> todo.getUsername().equalsIgnoreCase(username);
-        return todos.stream().filter(predicate).toList();
+        return todoRepository.findByUsername(username);
     }
 
-    public void addTodo(String username, String description, LocalDate targetDate, Boolean isCompleted) {
-        todos.add(new Todo(++todoCount, username, description, targetDate, isCompleted));
+    public void addTodo(Todo todo) {
+        todoRepository.save(todo);
     }
 
     public void deleteById(long id) {
-        Predicate<Todo> predicate = todo -> todo.getId() == id;
-        todos.removeIf(predicate);
+        todoRepository.deleteById(id);
     }
 
-    public Todo findById(int id) {
-        Predicate<Todo> predicate = todo -> todo.getId() == id;
-        return todos.stream()
-                .filter(predicate)
-                .findFirst()
-                .get();
+    public Todo findById(long id) {
+        return todoRepository.findById(id).get();
     }
 
     public void updateTodo(Todo todo) {
-        deleteById(todo.getId());
-        todos.add(todo);
+        todoRepository.save(todo);
     }
 }
