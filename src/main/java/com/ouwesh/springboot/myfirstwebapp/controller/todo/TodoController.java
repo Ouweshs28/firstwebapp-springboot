@@ -1,6 +1,8 @@
 package com.ouwesh.springboot.myfirstwebapp.controller.todo;
 
 import jakarta.validation.Valid;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -23,23 +25,23 @@ public class TodoController {
 
     @RequestMapping("list-todos")
     public String listAllTodos(ModelMap modelMap) {
-        modelMap.put("todos", todoService.findByUsername(""));
+        modelMap.put("todos", todoService.findByUsername(getUsername()));
         return "listTodos";
     }
 
     @RequestMapping(value = "add-todo", method = RequestMethod.GET)
     public String showNewTodoPage(ModelMap modelMap) {
-        Todo todo = new Todo(0, modelMap.get("name").toString(), "", LocalDate.now().plusYears(1), false);
+        Todo todo = new Todo(0, getUsername(), "", LocalDate.now().plusYears(1), false);
         modelMap.put("todo", todo);
         return "todo";
     }
 
     @RequestMapping(value = "add-todo", method = RequestMethod.POST)
-    public String addNewTodo(ModelMap modelMap, @Valid Todo todo, BindingResult bindingResult) {
+    public String addNewTodo(@Valid Todo todo, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             return "todo";
         }
-        todoService.addTodo(modelMap.get("name").toString(), todo.getDescription(), todo.getTargetDate(), false);
+        todoService.addTodo(getUsername(), todo.getDescription(), todo.getTargetDate(), false);
         return "redirect:list-todos";
     }
 
@@ -57,12 +59,17 @@ public class TodoController {
     }
 
     @RequestMapping(value = "update-todo", method = RequestMethod.POST)
-    public String updateTodo(ModelMap modelMap, @Valid Todo todo, BindingResult bindingResult) {
+    public String updateTodo(@Valid Todo todo, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             return "updateTodo";
         }
-        todo.setUsername(modelMap.get("name").toString());
+        todo.setUsername(getUsername());
         todoService.updateTodo(todo);
         return "redirect:list-todos";
+    }
+
+    private static String getUsername() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        return authentication.getName();
     }
 }
